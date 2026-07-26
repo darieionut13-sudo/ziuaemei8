@@ -59,14 +59,14 @@
             100% { transform: scale(0); opacity: 0; }
         }
         
-        /* ===== CONTOR BALOANE ===== */
+        /* ===== CONTOR BALOANE - ascuns by default ===== */
         #balloon-counter {
             position: fixed;
             top: 58px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 50;
-            display: flex;
+            display: none; /* ASCUNS by default */
             justify-content: center;
             gap: 4px;
             background: rgba(15, 23, 42, 0.88);
@@ -79,6 +79,9 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             max-width: 95vw;
             white-space: nowrap;
+        }
+        #balloon-counter.visible {
+            display: flex;
         }
         .balloon-counter-item {
             display: flex;
@@ -94,13 +97,21 @@
             text-align: center;
         }
 
-        /* ===== POPUP TIMER & SCORE OVERLAY ===== */
-        #popup-timer-display {
+        /* ===== POPUP HUD (timer + scor) ===== */
+        #popup-hud {
             position: fixed;
             top: 12px;
             left: 15px;
-            z-index: 60;
-            background: rgba(15, 23, 42, 0.9);
+            z-index: 150;
+            display: none;
+            align-items: center;
+            gap: 8px;
+        }
+        #popup-hud.visible {
+            display: flex;
+        }
+        #popup-timer-display {
+            background: rgba(15, 23, 42, 0.95);
             backdrop-filter: blur(10px);
             padding: 8px 14px;
             border-radius: 12px;
@@ -108,8 +119,7 @@
             font-family: 'Fredoka One', cursive;
             font-size: 1.1rem;
             color: #fff;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-            display: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
         #popup-timer-display.urgent {
             border-color: #ef4444;
@@ -117,11 +127,7 @@
             animation: pulseUrgent 0.5s infinite alternate;
         }
         #popup-score-display {
-            position: fixed;
-            top: 12px;
-            right: 15px;
-            z-index: 60;
-            background: rgba(15, 23, 42, 0.9);
+            background: rgba(15, 23, 42, 0.95);
             backdrop-filter: blur(10px);
             padding: 8px 14px;
             border-radius: 12px;
@@ -129,11 +135,10 @@
             font-family: 'Fredoka One', cursive;
             font-size: 1.1rem;
             color: var(--accent-green);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-            display: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
         
-        /* Overlay final popup */
+        /* Overlay final Popup */
         #popup-end-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -146,6 +151,7 @@
             align-items: center;
             padding: 20px;
             text-align: center;
+            overflow-y: auto;
         }
         #popup-end-overlay.active { display: flex; animation: fadeIn 0.4s ease-out; }
         .popup-end-title {
@@ -201,6 +207,7 @@
             flex-wrap: wrap;
             justify-content: center;
             max-width: 340px;
+            margin-bottom: 20px;
         }
         .popup-btn {
             padding: 12px 20px;
@@ -226,7 +233,6 @@
             border: 1px solid rgba(255,255,255,0.2);
         }
         .popup-btn:active { transform: scale(0.97); }
-        /* ===== SFARSIT POPUP OVERLAY ===== */
         
         .container {
             width: 90%; max-width: 400px; height: auto;
@@ -297,6 +303,11 @@
         }
         .btn-actions-row .btn {
             flex: 1; padding: 10px; font-size: 0.88rem;
+        }
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            box-shadow: none;
+            border: 1px solid rgba(255,255,255,0.2);
         }
         
         /* Game Screen Layout */
@@ -467,9 +478,11 @@
         <i class="fa-solid fa-bars"></i> Înapoi la Meniu
     </button>
 
-    <!-- Timer & Scor Popup -->
-    <div id="popup-timer-display">⏱️ 20s</div>
-    <div id="popup-score-display">⭐ 0</div>
+    <!-- Popup HUD (timer + scor) - doar in modul popup -->
+    <div id="popup-hud">
+        <div id="popup-timer-display">⏱️ 20s</div>
+        <div id="popup-score-display">⭐ 0</div>
+    </div>
 
     <!-- Overlay final Popup -->
     <div id="popup-end-overlay">
@@ -488,17 +501,17 @@
                 <i class="fa-solid fa-bars"></i> Înapoi la Meniu
             </button>
         </div>
-        <div style="margin-top: 20px; width: 100%; max-width: 340px;">
+        <div style="width: 100%; max-width: 340px;">
             <h3 style="font-family: 'Fredoka One', cursive; color: var(--accent-yellow); margin-bottom: 10px; font-size: 1.1rem;">
                 <i class="fa-solid fa-ranking-star"></i> Clasament Pop-up
             </h3>
-            <ul id="popup-leaderboard-list" class="leaderboard-list" style="max-height: 35vh;">
+            <ul id="popup-leaderboard-list" class="leaderboard-list" style="max-height: 30vh;">
                 <li style="text-align:center; padding: 15px; opacity: 0.7;">Se încarcă...</li>
             </ul>
         </div>
     </div>
 
-    <!-- Contor Baloane -->
+    <!-- Contor Baloane - ascuns by default, vizibil doar in popup mode -->
     <div id="balloon-counter"></div>
 
     <div id="bg-container" class="bg-container"></div>
@@ -519,6 +532,9 @@
             </div>
             <button class="btn" onclick="startGame()">
                 <i class="fa-solid fa-play"></i> ÎNCEPE JOCUL
+            </button>
+            <button class="btn btn-secondary" onclick="showLeaderboardFromStart()" style="margin-top: 8px;">
+                <i class="fa-solid fa-ranking-star"></i> Afișează Clasamentul
             </button>
         </div>
 
@@ -569,8 +585,8 @@
             <ul id="leaderboard-list" class="leaderboard-list">
                 <li style="text-align:center; padding: 15px; opacity: 0.7;">Se încarcă clasamentul...</li>
             </ul>
-            <button class="btn" onclick="goToInvitation()">
-                Vezi Invitatia <i class="fa-solid fa-arrow-right"></i>
+            <button class="btn btn-secondary" onclick="backToStart()" style="margin-top: 10px;">
+                <i class="fa-solid fa-arrow-left"></i> Înapoi la Meniu
             </button>
         </div>
 
@@ -696,12 +712,12 @@
             popupScore = 0;
             isPopupMode = true;
             
-            // Resetare contoare
             for (let key in balloonCounts) balloonCounts[key] = 0;
             updateBalloonCounter();
             updatePopupDisplays();
 
-                    document.getElementById("popup-hud").style.display = "flex";
+            document.getElementById("popup-hud").classList.add("visible");
+            document.getElementById("balloon-counter").classList.add("visible");
             document.getElementById("popup-end-overlay").classList.remove("active");
 
             popupTimer = setInterval(() => {
@@ -723,11 +739,10 @@
             isPopupMode = false;
             popupScore = calculatePopupScore();
             
-                       document.getElementById("popup-hud").style.display = "none";
+            document.getElementById("popup-hud").classList.remove("visible");
             document.getElementById("popup-end-overlay").classList.add("active");
             document.getElementById("popup-final-score").innerText = popupScore + " pct";
 
-            // Breakdown
             const breakdownEl = document.getElementById("popup-breakdown");
             let html = "";
             for (const [emoji, count] of Object.entries(balloonCounts)) {
@@ -766,6 +781,16 @@
         window.goToInvitation = goToInvitation;
         window.playPopupOnly = playPopupOnly;
         window.restoreMenu = restoreMenu;
+        window.showLeaderboardFromStart = showLeaderboardFromStart;
+        window.backToStart = backToStart;
+
+        function showLeaderboardFromStart() {
+            switchScreen("leaderboard-screen");
+        }
+
+        function backToStart() {
+            switchScreen("start-screen");
+        }
 
         /* ========== 1. ANIMAȚIE CONFETTI ========== */
         function animCorrectConfetti() {
@@ -909,7 +934,8 @@
             document.getElementById("main-container").classList.remove("hidden");
             document.getElementById("restore-btn").style.display = "none";
             document.getElementById("popup-end-overlay").classList.remove("active");
-                       document.getElementById("popup-hud").style.display = "none";
+            document.getElementById("popup-hud").classList.remove("visible");
+            document.getElementById("balloon-counter").classList.remove("visible");
             clearInterval(popupTimer);
             isPopupMode = false;
         }
@@ -1035,7 +1061,7 @@
             });
         });
 
-        /* ===== CLASAMENT POPUP - NOU ===== */
+        /* ===== CLASAMENT POPUP ===== */
         const popupLeaderboardRef = query(ref(db, "popupLeaderboard"), orderByChild("score"), limitToLast(10));
         onValue(popupLeaderboardRef, (snapshot) => {
             const list = document.getElementById("popup-leaderboard-list");
