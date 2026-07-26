@@ -147,7 +147,7 @@
         }
         
         /* Overlay final Popup */
-        #popup-end-overlay {
+               #popup-end-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
             z-index: 200;
@@ -155,46 +155,48 @@
             backdrop-filter: blur(12px);
             display: none;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;      /* ← începe de sus, nu centrat */
             align-items: center;
-            padding: 20px;
+            padding: 70px 16px 20px 16px;      /* ← padding-top 70px ca să coboare sub bara browser */
             text-align: center;
             overflow-y: auto;
         }
         #popup-end-overlay.active { display: flex; animation: fadeIn 0.4s ease-out; }
         .popup-end-title {
             font-family: 'Fredoka One', cursive;
-            font-size: 2rem;
+            font-size: 1.5rem;                /* ← mai mic */
             background: linear-gradient(90deg, var(--primary-pink), var(--accent-yellow));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
+            margin-bottom: 4px;
         }
         .popup-end-score {
             font-family: 'Fredoka One', cursive;
-            font-size: 3.5rem;
+            font-size: 2.4rem;                /* ← mai mic, încape pe orice ecran */
             color: var(--accent-green);
-            margin: 10px 0;
+            margin: 4px 0 8px 0;
             text-shadow: 0 0 20px rgba(6,214,160,0.4);
         }
         .popup-end-subtitle {
-            font-size: 1rem;
+            font-size: 0.85rem;
             color: #cbd5e1;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
             max-width: 320px;
-            line-height: 1.4;
+            line-height: 1.3;
         }
         .popup-breakdown {
             background: rgba(255,255,255,0.05);
             border-radius: 14px;
-            padding: 12px 18px;
-            margin-bottom: 20px;
+            padding: 10px 14px;
+            margin-bottom: 14px;
             border: 1px solid rgba(255,255,255,0.1);
-            font-size: 0.9rem;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            min-width: 220px;
+            font-size: 0.85rem;
+            display: grid;                    /* ← 2 coloane */
+            grid-template-columns: 1fr 1fr;
+            gap: 4px 16px;
+            min-width: 280px;
+            max-width: 380px;
+            width: 100%;
         }
         .popup-breakdown-row {
             display: flex;
@@ -202,31 +204,37 @@
             align-items: center;
         }
         .popup-breakdown-row.total {
+            grid-column: 1 / -1;              /* ← totalul pe toată lățimea */
             border-top: 1px solid rgba(255,255,255,0.15);
             padding-top: 6px;
             margin-top: 4px;
             font-weight: 800;
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: var(--accent-yellow);
         }
         .popup-btn-row {
             display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
+            gap: 6px;                           /* ← mai mic gap */
+            flex-wrap: nowrap;                  /* ← FORȚAT un singur rând */
             justify-content: center;
-            max-width: 340px;
-            margin-bottom: 20px;
+            max-width: 380px;
+            width: 100%;
+            margin-bottom: 16px;
         }
         .popup-btn {
-            padding: 12px 20px;
+            flex: 1;                            /* ← împart egal spațiul */
+            padding: 10px 4px;                  /* ← padding orizontal mic */
             border: none;
-            border-radius: 12px;
+            border-radius: 10px;
             font-family: 'Fredoka One', cursive;
-            font-size: 0.95rem;
+            font-size: 0.75rem;                 /* ← mai mic ca să încapă */
             cursor: pointer;
             transition: all 0.2s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            white-space: nowrap;
+            line-height: 1.2;
         }
+        .popup-btn i { margin-right: 3px; }
         .popup-btn.save {
             background: linear-gradient(135deg, var(--primary-pink), var(--primary-purple));
             color: #fff;
@@ -500,7 +508,7 @@
         <div class="popup-breakdown" id="popup-breakdown"></div>
         <div class="popup-btn-row">
             <button class="popup-btn save" onclick="savePopupScore()">
-                <i class="fa-solid fa-trophy"></i> Salvează Scorul
+                <i class="fa-solid fa-trophy"></i> Salveaza Scorul
             </button>
             <button class="popup-btn again" onclick="restartPopupGame()">
                 <i class="fa-solid fa-rotate-right"></i> Joaca Din Nou
@@ -532,7 +540,7 @@
                 <p class="subtitle">Află cât de bine o cunoști pe <strong>Ema</strong> și obține cel mai mare punctaj. Raspunsuri mai rapide, puncte mai multe!</p>
             </div>
             <div>
-                <p class="balloon-hint">🎈 Sparge baloanele de pe ecran!</p>
+                <p class="balloon-hint"></p>
                 <div class="form-group">
                     <label for="player-name"><i class="fa-solid fa-user-ninja"></i> Numele tău:</label>
                     <input type="text" id="player-name" placeholder="Ex: Marcel" maxlength="20" autocomplete="off">
@@ -619,7 +627,7 @@
                     <h2 class="invitation-title">🎉 Te astept la ziua mea! 🎉</h2>
                     <p class="invitation-text">
                         Nu știm exact când s-a întâmplat, dar EMA face 8 ani! A crescut mare, deșteaptă și cu opinii foarte clare despre orice (mai ales despre mâncare).<br>
-                        Te invit <strong>Sâmbătă, 15 august 2026, ora 15:00</strong> să sărbătorim 
+                        Te invit <strong>Sâmbătă, 15 august 2026, ora 15:00</strong> să o sărbătorim 
                     </p>
                     <div class="invitation-details">
                         <p><i class="fa-solid fa-location-dot" style="color: #ff477e;"></i> Locația: <strong>„La Grădină”</strong></p>
@@ -673,7 +681,7 @@
             { question: "9. Cum o chema pe cea mai bună prietenă de la grădiniță?", options: ["Sofia", "Alexia", "Maria"], correct: 1 },
             { question: "10. La ce vârstă a învățat Ema să meargă pe bicicletă?", options: ["La 6 ani", "La 5 ani", "La 7 ani"], correct: 2 },
             { question: "11. Ce fel de animale iubește Ema cel mai mult?", options: ["Pisicile", "Câinii", "Păsările"], correct: 1 },
-            { question: "12. Ce îi este frică Emei?", options: ["De extratereștri", "De insecte", "De apă"], correct: 1 },
+            { question: "12. De ce îi este frică Emei?", options: ["De extratereștri", "De insecte", "De apă"], correct: 1 },
             { question: "13. Ce culoare au ochii Emei?", options: ["Albaștri", "Verzi", "Căprui"], correct: 2 },
             { question: "14. Ce are Ema la urechi?", options: ["Ceară", "Sinusul preauricular", "O aluniță"], correct: 1 },
             { question: "15. Care este anotimpul preferat al Emei?", options: ["Primăvara", "Iarna", "Vara"], correct: 2 }
