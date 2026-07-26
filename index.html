@@ -17,6 +17,16 @@
             --accent-green: #06d6a0;
             --text-light: #f8fafc;
         }
+        
+        .block-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 9998;
+            background: transparent;
+            pointer-events: auto;
+            cursor: not-allowed;
+        }
+        
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Nunito', sans-serif; user-select: none; }
         html, body {
             width: 100%; height: 100%; overflow: hidden;
@@ -493,7 +503,7 @@
                 <i class="fa-solid fa-trophy"></i> Salvează Scorul
             </button>
             <button class="popup-btn again" onclick="restartPopupGame()">
-                <i class="fa-solid fa-rotate-right"></i> Joacă Din Nou
+                <i class="fa-solid fa-rotate-right"></i> Joaca Din Nou
             </button>
             <button class="popup-btn menu" onclick="restoreMenu()">
                 <i class="fa-solid fa-bars"></i> Înapoi la Meniu
@@ -532,7 +542,7 @@
                 <i class="fa-solid fa-play"></i> ÎNCEPE JOCUL
             </button>
             <button class="btn btn-secondary" onclick="showLeaderboardFromStart()" style="margin-top: 8px;">
-                <i class="fa-solid fa-ranking-star"></i> Afișează Clasamentul
+                <i class="fa-solid fa-ranking-star"></i> Afiseaza Clasamentul
             </button>
         </div>
 
@@ -680,10 +690,10 @@
             "💖": 2,
             "🎁": 3,
             "✨": 1,
-            "🎉": 2,
+            "EMA": 2,
             "👑": 5
         };
-        let balloonCounts = { "🎈": 0, "🎂": 0, "🦄": 0, "💖": 0, "🎁": 0, "✨": 0, "🎉": 0, "👑": 0 };
+        let balloonCounts = { "🎈": 0, "🎂": 0, "🦄": 0, "💖": 0, "🎁": 0, "✨": 0, "EMA": 0, "👑": 0 };
         let popupScore = 0;
         let popupTimer = null;
         let popupTimeLeft = 20;
@@ -740,11 +750,12 @@
             }, 1000);
         }
 
-        function endPopupGame() {
+                function endPopupGame() {
             isPopupMode = false;
             popupScore = calculatePopupScore();
             
             document.getElementById("popup-hud").classList.remove("visible");
+            document.getElementById("balloon-counter").classList.remove("visible");
             document.getElementById("popup-end-overlay").classList.add("active");
             document.getElementById("popup-final-score").innerText = popupScore + " pct";
 
@@ -759,6 +770,12 @@
             breakdownEl.innerHTML = html;
 
             confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+
+            // Blochează orice atingere pe ecran timp de 2 secunde
+            const blockOverlay = document.createElement('div');
+            blockOverlay.className = 'block-overlay';
+            document.body.appendChild(blockOverlay);
+            setTimeout(() => blockOverlay.remove(), 2000);
         }
 
         window.savePopupScore = function() {
@@ -1039,7 +1056,7 @@
         }
 
         function goToInvitation() {
-            const waMessage = encodeURIComponent(`Bună! Eu sunt ${playerName} și am participat la jocul Emei! 🎉 Vin cu mare drag la petrecerea ei din 15 august, ora 15:00 „La Grădină”!`);
+            const waMessage = encodeURIComponent(`Bună! Eu sunt ${playerName} și vin cu mare drag la petrecerea ei din 15 august, ora 15:00 „La Grădină”!`);
             document.getElementById("whatsapp-btn").href = `https://wa.me/40722578301?text=${waMessage}`;
             switchScreen("invitation-screen");
         }
