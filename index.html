@@ -39,19 +39,17 @@
             20% { opacity: 0.7; }
             100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
         }
-        .balloon {
+                .balloon {
             position: absolute; font-size: 2.5rem; cursor: pointer; pointer-events: auto;
-            animation: floatBalloon 10s infinite ease-in-out;
+            animation: floatBalloon 12s linear infinite;   /* ← linear în loc de ease-in-out */
             transition: transform 0.1s ease;
             filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
             z-index: 5;
+            touch-action: manipulation;
         }
-        .balloon:active { transform: scale(0.8); }
-        .balloon.pop { animation: popAnim 0.3s ease-out forwards !important; pointer-events: none; }
         @keyframes floatBalloon {
             0% { transform: translateY(110vh) translateX(0) rotate(0deg); }
-            50% { transform: translateY(50vh) translateX(30px) rotate(15deg); }
-            100% { transform: translateY(-15vh) translateX(-30px) rotate(-15deg); }
+            100% { transform: translateY(-50vh) translateX(30px) rotate(360deg); }  /* ← -50vh, fără 50% */
         }
         @keyframes popAnim {
             0% { transform: scale(1); opacity: 1; }
@@ -610,8 +608,8 @@
                 <div id="invitation-card" class="invitation-card">
                     <h2 class="invitation-title">🎉 Te astept la ziua mea! 🎉</h2>
                     <p class="invitation-text">
-                        Esti pregatit pentru petrecere!<br>
-                        Te invit <strong>Sâmbătă, 15 august 2026, ora 15:00</strong> să sărbătorim cei <strong>8 ani</strong> ai mei!
+                        Nu știm exact când s-a întâmplat, dar EMA face 8 ani! A crescut mare, deșteaptă și cu opinii foarte clare despre orice (mai ales despre mâncare).<br>
+                        Te invit <strong>Sâmbătă, 15 august 2026, ora 15:00</strong> să sărbătorim 
                     </p>
                     <div class="invitation-details">
                         <p><i class="fa-solid fa-location-dot" style="color: #ff477e;"></i> Locația: <strong>„La Grădină”</strong></p>
@@ -879,8 +877,9 @@
             balloon.style.animationDuration = `${6 + Math.random() * 7}s`;
             balloon.style.fontSize = `${2 + Math.random() * 1.2}rem`;
             
-            balloon.onclick = (e) => { 
+                        balloon.onpointerdown = (e) => { 
                 e.stopPropagation(); 
+                e.preventDefault();
                 popBalloon(balloon); 
             };
             container.appendChild(balloon);
@@ -923,7 +922,7 @@
             setTimeout(() => { 
                 element.remove(); 
                 createSingleBalloon();
-            }, 300);
+            }, 100);
         }
 
         function triggerVibration(pattern) {
