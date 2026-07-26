@@ -701,8 +701,7 @@
             updateBalloonCounter();
             updatePopupDisplays();
 
-            document.getElementById("popup-timer-display").style.display = "block";
-            document.getElementById("popup-score-display").style.display = "block";
+                    document.getElementById("popup-hud").style.display = "flex";
             document.getElementById("popup-end-overlay").classList.remove("active");
 
             popupTimer = setInterval(() => {
@@ -724,8 +723,7 @@
             isPopupMode = false;
             popupScore = calculatePopupScore();
             
-            document.getElementById("popup-timer-display").style.display = "none";
-            document.getElementById("popup-score-display").style.display = "none";
+                       document.getElementById("popup-hud").style.display = "none";
             document.getElementById("popup-end-overlay").classList.add("active");
             document.getElementById("popup-final-score").innerText = popupScore + " pct";
 
@@ -911,8 +909,7 @@
             document.getElementById("main-container").classList.remove("hidden");
             document.getElementById("restore-btn").style.display = "none";
             document.getElementById("popup-end-overlay").classList.remove("active");
-            document.getElementById("popup-timer-display").style.display = "none";
-            document.getElementById("popup-score-display").style.display = "none";
+                       document.getElementById("popup-hud").style.display = "none";
             clearInterval(popupTimer);
             isPopupMode = false;
         }
