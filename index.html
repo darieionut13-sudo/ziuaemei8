@@ -59,6 +59,42 @@
             100% { transform: scale(0); opacity: 0; }
         }
         
+        /* ===== CONTOR BALOANE - NOU ===== */
+        #balloon-counter {
+            position: fixed;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 50;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px 10px;
+            background: rgba(15, 23, 42, 0.88);
+            backdrop-filter: blur(10px);
+            padding: 8px 14px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.15);
+            font-size: 0.85rem;
+            font-weight: 800;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            max-width: 95vw;
+        }
+        .balloon-counter-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: #fff;
+            font-family: 'Nunito', sans-serif;
+        }
+        .balloon-counter-item span {
+            color: var(--accent-yellow);
+            font-family: 'Fredoka One', cursive;
+            min-width: 18px;
+            text-align: center;
+        }
+        /* ===== SFARSIT CONTOR BALOANE ===== */
+        
         .container {
             width: 90%; max-width: 400px; height: auto;
             background: var(--card-bg); backdrop-filter: blur(16px);
@@ -298,6 +334,10 @@
         <i class="fa-solid fa-bars"></i> Înapoi la Meniu
     </button>
 
+    <!-- ===== CONTOR BALOANE - NOU ===== -->
+    <div id="balloon-counter"></div>
+    <!-- ===== SFARSIT CONTOR BALOANE ===== -->
+
     <div id="bg-container" class="bg-container"></div>
     <div class="container" id="main-container">
         
@@ -449,6 +489,18 @@
         let currentQuestionIndex = 0, score = 0, streak = 0, playerName = "", timerInterval = null, timeLeft = 15, canAnswer = true, used5050 = false, usedFreeze = false, isFlipped = false;
         let correctAnimIndex = 0;
 
+        /* ===== CONTOR BALOANE - NOU ===== */
+        let balloonCounts = { "🎈": 0, "🎂": 0, "🦄": 0, "💖": 0, "🎁": 0, "✨": 0, "🎉": 0, "👑": 0 };
+
+        function updateBalloonCounter() {
+            const container = document.getElementById("balloon-counter");
+            if (!container) return;
+            container.innerHTML = Object.entries(balloonCounts).map(([emoji, count]) => 
+                `<div class="balloon-counter-item">${emoji} <span>${count}</span></div>`
+            ).join('');
+        }
+        /* ===== SFARSIT CONTOR BALOANE ===== */
+
         window.startGame = startGame; 
         window.use5050 = use5050; 
         window.useFreeze = useFreeze; 
@@ -566,11 +618,24 @@
             for (let i = 0; i < 15; i++) {
                 setTimeout(() => createSingleBalloon(), i * 300);
             }
+
+            /* ===== INITIALIZARE CONTOR BALOANE - NOU ===== */
+            updateBalloonCounter();
+            /* ===== SFARSIT INITIALIZARE CONTOR ===== */
         }
         
         function popBalloon(element) {
             element.classList.add("pop"); 
             triggerVibration(30); 
+
+            /* ===== CONTORIZARE BALON - NOU ===== */
+            const emoji = element.innerHTML.trim();
+            if (balloonCounts.hasOwnProperty(emoji)) {
+                balloonCounts[emoji]++;
+                updateBalloonCounter();
+            }
+            /* ===== SFARSIT CONTORIZARE ===== */
+            
             setTimeout(() => { 
                 element.remove(); 
                 // Creăm un nou balon pentru distracție nesfârșită
