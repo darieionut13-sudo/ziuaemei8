@@ -58,24 +58,24 @@
             100% { transform: scale(0); opacity: 0; }
         }
         
-        /* Container compatibil 100% fit ecran mobil */
+        /* Container compatibil fit mobil */
         .container {
-    width: 90%; max-width: 400px; height: auto;
-    background: var(--card-bg); backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 2px solid rgba(255, 255, 255, 0.12); border-radius: 20px;
-    padding: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    position: relative; z-index: 10; display: flex; flex-direction: column;
-    overflow: hidden;
-}
+            width: 90%; max-width: 400px; height: auto;
+            background: var(--card-bg); backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 2px solid rgba(255, 255, 255, 0.12); border-radius: 20px;
+            padding: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative; z-index: 10; display: flex; flex-direction: column;
+            overflow: hidden;
+        }
         h1, h2, h3 { font-family: 'Fredoka One', cursive; text-align: center; }
         
         .screen {
-    display: none; flex-direction: column;
-    justify-content: center; gap: 12px;
-    animation: fadeIn 0.3s ease-out forwards;
-}
-.screen.active { display: flex; }
+            display: none; flex-direction: column;
+            justify-content: center; gap: 12px;
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+        .screen.active { display: flex; }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -138,7 +138,6 @@
             transition: width 0.3s ease;
         }
         
-        /* BARA NOUA: Intrebare (80%) + Timer (20%) pe un singur rand */
         .question-timer-row {
             display: flex; align-items: center; gap: 8px; width: 100%; margin-bottom: 10px;
         }
@@ -263,16 +262,16 @@
         }
 
         /* Animații suprapuse */
-        .correct-star-overlay, .clap-overlay, .firework-overlay, .lava-overlay, .red-flash-overlay, .explosion-overlay {
+        .correct-star-overlay, .clap-overlay, .red-flash-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             z-index: 9999; pointer-events: none; display: flex; justify-content: center; align-items: center;
         }
         .correct-star { font-size: 6rem; animation: starBurst 1s ease-out forwards; }
-        @keyframes starBurst { 0% { transform: scale(0); opacity: 0; } 50% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(0); opacity: 0; } }
-        .clap-emoji { position: absolute; font-size: 2rem; animation: clapFly 1.2s ease-out forwards; }
-        @keyframes clapFly { 0% { transform: translateY(100vh); opacity: 0; } 100% { transform: translateY(-10vh); opacity: 0; } }
-        .firework-particle { position: absolute; width: 6px; height: 6px; border-radius: 50%; animation: fireworkBurst 0.8s ease-out forwards; }
-        @keyframes fireworkBurst { 0% { opacity: 1; } 100% { transform: translate(var(--tx), var(--ty)); opacity: 0; } }
+        @keyframes starBurst { 0% { transform: scale(0); opacity: 0; } 50% { transform: scale(1.3); opacity: 1; } 100% { transform: scale(0); opacity: 0; } }
+        
+        .clap-emoji { position: absolute; font-size: 2.8rem; animation: clapFly 1.2s ease-out forwards; }
+        @keyframes clapFly { 0% { transform: translateY(80vh) scale(0.5); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateY(-20vh) scale(1.2); opacity: 0; } }
+        
         .red-flash-overlay { background: rgba(255, 0, 0, 0.4); animation: redFlash 0.6s ease-out forwards; }
         @keyframes redFlash { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
         .screen-spin { animation: screenSpin360 0.8s ease-in-out !important; }
@@ -343,7 +342,7 @@
             </div>
         </div>
 
-        <!-- 3. LEADERBOARD SCREEN (PAGINA SEPARATĂ PENTRU CLASAMENT) -->
+        <!-- 3. LEADERBOARD SCREEN -->
         <div id="leaderboard-screen" class="screen">
             <h3 class="leaderboard-title"><i class="fa-solid fa-ranking-star"></i> Clasamentul Jucatorilor</h3>
             <ul id="leaderboard-list" class="leaderboard-list">
@@ -354,7 +353,7 @@
             </button>
         </div>
 
-        <!-- 4. INVITATION SCREEN (ULTIMA PAGINĂ - FĂRĂ PUNCTAJ) -->
+        <!-- 4. INVITATION SCREEN -->
         <div id="invitation-screen" class="screen">
             <div>
                 <div id="envelope-box" class="envelope-wrapper" onclick="openInvitation()">
@@ -424,6 +423,9 @@
 
         let currentQuestionIndex = 0, score = 0, streak = 0, playerName = "", timerInterval = null, timeLeft = 15, canAnswer = true, used5050 = false, usedFreeze = false, isFlipped = false;
         
+        // Indice pentru rotația celor 4 animații la răspuns corect
+        let correctAnimIndex = 0;
+
         window.startGame = startGame; 
         window.use5050 = use5050; 
         window.useFreeze = useFreeze; 
@@ -431,27 +433,65 @@
         window.restartGame = restartGame;
         window.goToInvitation = goToInvitation;
 
-        /* ========== ANIMAȚII RĂSPUNSURI ========== */
+        /* ========== CELE 4 ANIMAȚII PENTRU RĂSPUNS CORECT ========== */
+        
+        // 1. Confetti
         function animCorrectConfetti() {
-            confetti({ particleCount: 35, spread: 60, origin: { y: 0.7 } });
+            confetti({ particleCount: 50, spread: 70, origin: { y: 0.6 } });
         }
+
+        // 2. Stea Stralucitoare
         function animCorrectStar() {
             const overlay = document.createElement('div'); overlay.className = 'correct-star-overlay';
             overlay.innerHTML = '<div class="correct-star">⭐</div>';
             document.body.appendChild(overlay); setTimeout(() => overlay.remove(), 1000);
         }
+
+        // 3. Aplauze
         function animCorrectClaps() {
             const overlay = document.createElement('div'); overlay.className = 'clap-overlay';
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < 12; i++) {
                 const clap = document.createElement('div'); clap.className = 'clap-emoji'; clap.innerHTML = '👏';
                 clap.style.left = Math.random() * 80 + 10 + 'vw';
+                clap.style.animationDelay = (Math.random() * 0.3) + 's';
                 overlay.appendChild(clap);
             }
-            document.body.appendChild(overlay); setTimeout(() => overlay.remove(), 1200);
+            document.body.appendChild(overlay); setTimeout(() => overlay.remove(), 1300);
         }
-        const correctAnimations = [animCorrectConfetti, animCorrectStar, animCorrectClaps];
-        function playRandomCorrectAnimation() { correctAnimations[Math.floor(Math.random() * correctAnimations.length)](); }
 
+        // 4. Artificii
+        function animCorrectFireworks() {
+            const count = 200;
+            const defaults = { origin: { y: 0.7 } };
+
+            function fire(particleRatio, opts) {
+                confetti(Object.assign({}, defaults, opts, {
+                    particleCount: Math.floor(count * particleRatio)
+                }));
+            }
+
+            fire(0.25, { spread: 26, startVelocity: 55 });
+            fire(0.2, { spread: 60 });
+            fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+            fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+            fire(0.1, { spread: 120, startVelocity: 45 });
+        }
+
+        // Array cu cele 4 animații în ordine
+        const correctAnimations = [
+            animCorrectConfetti,
+            animCorrectStar,
+            animCorrectClaps,
+            animCorrectFireworks
+        ];
+
+        // Rotația secvențială (1 -> 2 -> 3 -> 4 -> 1 ...)
+        function playRotateCorrectAnimation() {
+            correctAnimations[correctAnimIndex]();
+            correctAnimIndex = (correctAnimIndex + 1) % correctAnimations.length;
+        }
+
+        /* ========== ANIMAȚII RĂSPUNS GREȘIT ========== */
         function animWrongSpin() {
             const container = document.getElementById('main-container');
             container.classList.add('screen-spin'); setTimeout(() => container.classList.remove('screen-spin'), 800);
@@ -490,7 +530,7 @@
         function startGame() {
             const nameInput = document.getElementById("player-name").value.trim();
             if (!nameInput) { alert("Te rugăm să îți introduci numele!"); return; }
-            playerName = nameInput; score = 0; streak = 0; currentQuestionIndex = 0; used5050 = false; usedFreeze = false; isFlipped = false;
+            playerName = nameInput; score = 0; streak = 0; currentQuestionIndex = 0; correctAnimIndex = 0; used5050 = false; usedFreeze = false; isFlipped = false;
             document.getElementById("powerup-5050").disabled = false; document.getElementById("powerup-freeze").disabled = false;
             switchScreen("game-screen"); loadQuestion();
         }
@@ -543,7 +583,9 @@
                 options[index].classList.add("correct"); streak++;
                 score += 500 + (timeLeft * 20) + (streak * 50);
                 document.getElementById("score-display").innerText = score; document.getElementById("streak-display").innerText = `${streak}x`;
-                playRandomCorrectAnimation();
+                
+                // Rulăm animația prin rotație
+                playRotateCorrectAnimation();
             } else {
                 triggerVibration([100, 50, 100]); options[index].classList.add("wrong"); options[q.correct].classList.add("correct");
                 streak = 0; document.getElementById("streak-display").innerText = `0x`;
