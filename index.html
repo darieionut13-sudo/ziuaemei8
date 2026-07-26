@@ -579,17 +579,24 @@
             </div>
         </div>
 
-        <!-- 3. LEADERBOARD SCREEN -->
+              <!-- 3. LEADERBOARD SCREEN -->
         <div id="leaderboard-screen" class="screen">
             <h3 class="leaderboard-title"><i class="fa-solid fa-ranking-star"></i> Clasamentul Jucatorilor</h3>
             <ul id="leaderboard-list" class="leaderboard-list">
                 <li style="text-align:center; padding: 15px; opacity: 0.7;">Se încarcă clasamentul...</li>
             </ul>
-            <button class="btn btn-secondary" onclick="backToStart()" style="margin-top: 10px;">
-                <i class="fa-solid fa-arrow-left"></i> Înapoi la Meniu
-            </button>
+            <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
+                <button class="btn" onclick="goToInvitation()">
+                    Vezi Invitatia <i class="fa-solid fa-arrow-right"></i>
+                </button>
+                <button class="btn" onclick="playPopupOnly()" style="background: linear-gradient(135deg, #ffb703, #ff477e);">
+                    <i class="fa-solid fa-hand-pointer"></i> Joaca doar pop-up
+                </button>
+                <button class="btn btn-secondary" onclick="backToStart()">
+                    <i class="fa-solid fa-arrow-left"></i> Înapoi la Meniu
+                </button>
+            </div>
         </div>
-
         <!-- 4. INVITATION SCREEN -->
         <div id="invitation-screen" class="screen">
             <div>
