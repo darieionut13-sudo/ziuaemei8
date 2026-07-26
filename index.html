@@ -4,13 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invitație la Ziua Emei! 🎂</title>
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Canvas Confetti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
     <style>
         :root {
             --bg-color: #0f172a;
@@ -21,621 +17,386 @@
             --accent-green: #06d6a0;
             --text-light: #f8fafc;
         }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Nunito', sans-serif;
-            user-select: none;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Nunito', sans-serif; user-select: none; }
         body {
             background: linear-gradient(135deg, #0f172a 0%, #1a103c 50%, #2b0938 100%);
-            min-height: 100vh;
-            color: var(--text-light);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow-x: hidden;
-            padding: 20px 10px;
-            position: relative;
+            min-height: 100vh; color: var(--text-light); display: flex;
+            justify-content: center; align-items: center; overflow-x: hidden;
+            padding: 20px 10px; position: relative;
         }
-
-        /* Animated Floating Background Elements & Interactive Balloons */
         .bg-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 1;
-            pointer-events: none;
-            overflow: hidden;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 1; pointer-events: none; overflow: hidden;
         }
-
         .floating-star {
-            position: absolute;
-            color: rgba(255, 230, 100, 0.4);
-            font-size: 1.2rem;
-            animation: floatUp 8s infinite linear;
+            position: absolute; color: rgba(255, 230, 100, 0.4);
+            font-size: 1.2rem; animation: floatUp 8s infinite linear;
         }
-
         @keyframes floatUp {
             0% { transform: translateY(105vh) rotate(0deg); opacity: 0; }
             20% { opacity: 0.7; }
             100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
         }
-
         .balloon {
-            position: absolute;
-            font-size: 2.8rem;
-            cursor: pointer;
-            pointer-events: auto;
+            position: absolute; font-size: 2.8rem; cursor: pointer; pointer-events: auto;
             animation: floatBalloon 12s infinite ease-in-out;
             transition: transform 0.1s ease;
             filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
         }
-
-        .balloon:active {
-            transform: scale(0.8);
-        }
-
-        .balloon.pop {
-            animation: popAnim 0.3s ease-out forwards !important;
-            pointer-events: none;
-        }
-
+        .balloon:active { transform: scale(0.8); }
+        .balloon.pop { animation: popAnim 0.3s ease-out forwards !important; pointer-events: none; }
         @keyframes floatBalloon {
             0% { transform: translateY(110vh) translateX(0) rotate(0deg); }
             50% { transform: translateY(50vh) translateX(25px) rotate(10deg); }
             100% { transform: translateY(-15vh) translateX(-20px) rotate(-10deg); }
         }
-
         @keyframes popAnim {
             0% { transform: scale(1); opacity: 1; }
             50% { transform: scale(1.6); opacity: 0.8; }
             100% { transform: scale(0); opacity: 0; }
         }
-
         .container {
-            width: 100%;
-            max-width: 750px;
-            background: var(--card-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 2px solid rgba(255, 255, 255, 0.12);
-            border-radius: 28px;
+            width: 100%; max-width: 750px; background: var(--card-bg);
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border: 2px solid rgba(255, 255, 255, 0.12); border-radius: 28px;
             padding: 30px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 71, 126, 0.2);
-            position: relative;
-            z-index: 10;
+            position: relative; z-index: 10;
+            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
-
-        h1, h2, h3 {
-            font-family: 'Fredoka One', cursive;
-            text-align: center;
-        }
-
-        /* Screen Manager */
-        .screen {
-            display: none;
-            animation: fadeIn 0.4s ease-out forwards;
-        }
-
-        .screen.active {
-            display: block;
-        }
-
+        h1, h2, h3 { font-family: 'Fredoka One', cursive; text-align: center; }
+        .screen { display: none; animation: fadeIn 0.4s ease-out forwards; }
+        .screen.active { display: block; }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-        /* START SCREEN */
         .title-badge {
             background: linear-gradient(90deg, var(--primary-pink), var(--primary-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-size: 2.8rem;
-            margin-bottom: 10px;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            font-size: 2.8rem; margin-bottom: 10px;
             text-shadow: 0 0 20px rgba(255, 71, 126, 0.3);
         }
-
-        .subtitle {
-            text-align: center;
-            font-size: 1.2rem;
-            color: #cbd5e1;
-            margin-bottom: 25px;
-        }
-
+        .subtitle { text-align: center; font-size: 1.2rem; color: #cbd5e1; margin-bottom: 25px; }
         .balloon-hint {
-            text-align: center;
-            font-size: 0.95rem;
-            color: var(--accent-yellow);
-            margin-bottom: 20px;
-            animation: pulseHint 2s infinite alternate;
+            text-align: center; font-size: 0.95rem; color: var(--accent-yellow);
+            margin-bottom: 20px; animation: pulseHint 2s infinite alternate;
         }
-
         @keyframes pulseHint {
             0% { opacity: 0.7; transform: scale(0.98); }
             100% { opacity: 1; transform: scale(1.02); }
         }
-
-        .form-group {
-            margin-bottom: 25px;
-        }
-
-        label {
-            display: block;
-            font-weight: 700;
-            margin-bottom: 8px;
-            font-size: 1.1rem;
-            color: #f1f5f9;
-        }
-
+        .form-group { margin-bottom: 25px; }
+        label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 1.1rem; color: #f1f5f9; }
         input[type="text"] {
-            width: 100%;
-            padding: 16px 20px;
-            border-radius: 16px;
+            width: 100%; padding: 16px 20px; border-radius: 16px;
             border: 2px solid rgba(255, 255, 255, 0.15);
-            background: rgba(15, 23, 42, 0.6);
-            color: #fff;
-            font-size: 1.2rem;
-            font-weight: 700;
-            outline: none;
-            transition: all 0.3s ease;
+            background: rgba(15, 23, 42, 0.6); color: #fff;
+            font-size: 1.2rem; font-weight: 700; outline: none; transition: all 0.3s ease;
         }
-
         input[type="text"]:focus {
             border-color: var(--primary-pink);
             box-shadow: 0 0 15px rgba(255, 71, 126, 0.4);
         }
-
         .btn {
-            width: 100%;
-            padding: 16px;
-            border: none;
-            border-radius: 16px;
+            width: 100%; padding: 16px; border: none; border-radius: 16px;
             background: linear-gradient(135deg, var(--primary-pink), var(--primary-purple));
-            color: #fff;
-            font-family: 'Fredoka One', cursive;
-            font-size: 1.4rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
+            color: #fff; font-family: 'Fredoka One', cursive; font-size: 1.4rem;
+            cursor: pointer; transition: all 0.2s ease;
             box-shadow: 0 10px 20px rgba(114, 9, 183, 0.4);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
+            display: flex; justify-content: center; align-items: center; gap: 10px; text-decoration: none;
         }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 25px rgba(255, 71, 126, 0.5);
-        }
-
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 15px 25px rgba(255, 71, 126, 0.5); }
         .btn-whatsapp {
             background: linear-gradient(135deg, #25D366, #128C7E);
-            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.4);
-            margin-bottom: 15px;
+            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.4); margin-bottom: 15px;
         }
-
-        .btn-whatsapp:hover {
-            box-shadow: 0 15px 25px rgba(37, 211, 102, 0.6);
-        }
-
-        /* GAME HEADER & STATS */
+        .btn-whatsapp:hover { box-shadow: 0 15px 25px rgba(37, 211, 102, 0.6); }
         .game-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            background: rgba(15, 23, 42, 0.5);
-            padding: 12px 20px;
-            border-radius: 16px;
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 20px; background: rgba(15, 23, 42, 0.5);
+            padding: 12px 20px; border-radius: 16px;
         }
-
-        .stat-box {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 1.1rem;
-            font-weight: 800;
-        }
-
-        .stat-box i {
-            color: var(--accent-yellow);
-        }
-
-        /* PROGRESS BAR */
+        .stat-box { display: flex; align-items: center; gap: 8px; font-size: 1.1rem; font-weight: 800; }
+        .stat-box i { color: var(--accent-yellow); }
         .progress-container {
-            width: 100%;
-            height: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 20px;
+            width: 100%; height: 10px; background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px; overflow: hidden; margin-bottom: 20px;
         }
-
         .progress-bar {
-            height: 100%;
-            width: 0%;
+            height: 100%; width: 0%;
             background: linear-gradient(90deg, var(--accent-yellow), var(--primary-pink));
             transition: width 0.3s ease;
         }
-
-        /* TIMER & URGENCY EFFECT */
         .timer-container {
-            position: relative;
-            width: 65px;
-            height: 65px;
-            margin: 0 auto 20px auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 50%;
+            position: relative; width: 65px; height: 65px;
+            margin: 0 auto 20px auto; display: flex;
+            justify-content: center; align-items: center; border-radius: 50%;
             transition: all 0.3s ease;
         }
-
         .timer-container.urgent {
             animation: pulseUrgent 0.5s infinite alternate;
             box-shadow: 0 0 25px rgba(239, 68, 68, 0.8);
         }
-
         @keyframes pulseUrgent {
             0% { transform: scale(1); background: rgba(239, 68, 68, 0.2); }
             100% { transform: scale(1.15); background: rgba(239, 68, 68, 0.5); }
         }
-
-        .timer-svg {
-            transform: rotate(-90deg);
-            width: 100%;
-            height: 100%;
-        }
-
-        .timer-circle-bg {
-            fill: none;
-            stroke: rgba(255, 255, 255, 0.1);
-            stroke-width: 6;
-        }
-
+        .timer-svg { transform: rotate(-90deg); width: 100%; height: 100%; }
+        .timer-circle-bg { fill: none; stroke: rgba(255, 255, 255, 0.1); stroke-width: 6; }
         .timer-circle {
-            fill: none;
-            stroke: var(--primary-pink);
-            stroke-width: 6;
-            stroke-linecap: round;
-            stroke-dasharray: 176;
-            stroke-dashoffset: 0;
+            fill: none; stroke: var(--primary-pink); stroke-width: 6;
+            stroke-linecap: round; stroke-dasharray: 176; stroke-dashoffset: 0;
             transition: stroke-dashoffset 1s linear, stroke 0.3s ease;
         }
-
-        .timer-text {
-            position: absolute;
-            font-family: 'Fredoka One', cursive;
-            font-size: 1.3rem;
-        }
-
-        /* 3D FLIP CARD QUESTION CONTAINER */
-        .card-perspective {
-            perspective: 1000px;
-            margin-bottom: 25px;
-        }
-
+        .timer-text { position: absolute; font-family: 'Fredoka One', cursive; font-size: 1.3rem; }
+        .card-perspective { perspective: 1000px; margin-bottom: 25px; }
         .question-card-3d {
-            width: 100%;
-            min-height: 110px;
-            position: relative;
+            width: 100%; min-height: 110px; position: relative;
             transform-style: preserve-3d;
             transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
         }
-
-        .question-card-3d.flipped {
-            transform: rotateY(180deg);
-        }
-
+        .question-card-3d.flipped { transform: rotateY(180deg); }
         .card-face {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 20px;
-            padding: 25px;
-            text-align: center;
-            font-size: 1.35rem;
-            font-weight: 800;
-            line-height: 1.4;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+            border-radius: 20px; padding: 25px; text-align: center;
+            font-size: 1.35rem; font-weight: 800; line-height: 1.4;
+            display: flex; align-items: center; justify-content: center;
             background: rgba(15, 23, 42, 0.7);
             border: 1px solid rgba(255, 255, 255, 0.12);
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
-
-        .card-back {
-            transform: rotateY(180deg);
-            background: rgba(30, 41, 59, 0.95);
-        }
-
-        /* OPTIONS */
-        .options-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
+        .card-back { transform: rotateY(180deg); background: rgba(30, 41, 59, 0.95); }
+        .options-grid { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
         .option-card {
             background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 18px;
-            padding: 18px 24px;
-            font-size: 1.15rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            position: relative;
-            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.1); border-radius: 18px;
+            padding: 18px 24px; font-size: 1.15rem; font-weight: 700;
+            cursor: pointer; transition: all 0.4s ease;
+            display: flex; align-items: center; gap: 15px;
+            position: relative; overflow: hidden;
         }
-
         .option-badge {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
+            width: 36px; height: 36px; border-radius: 50%;
             background: rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Fredoka One', cursive;
-            font-size: 1rem;
-            color: var(--accent-yellow);
+            display: flex; justify-content: center; align-items: center;
+            font-family: 'Fredoka One', cursive; font-size: 1rem; color: var(--accent-yellow);
         }
-
         .option-card:hover {
             background: rgba(255, 255, 255, 0.12);
             border-color: rgba(255, 255, 255, 0.3);
             transform: translateX(5px);
         }
-
-        /* Fade out non-selected options */
-        .option-card.fade-out {
-            opacity: 0.15;
-            transform: scale(0.96);
-            pointer-events: none;
-        }
-
-        /* Neon Glow Correct Answer */
+        .option-card.fade-out { opacity: 0.15; transform: scale(0.96); pointer-events: none; }
         .option-card.correct {
-            background: rgba(6, 214, 160, 0.25);
-            border-color: var(--accent-green);
-            color: #fff;
+            background: rgba(6, 214, 160, 0.25); border-color: var(--accent-green); color: #fff;
             box-shadow: 0 0 25px rgba(6, 214, 160, 0.8), inset 0 0 15px rgba(6, 214, 160, 0.5);
             animation: pulseGlow 0.6s infinite alternate;
         }
-
         @keyframes pulseGlow {
             0% { box-shadow: 0 0 15px rgba(6, 214, 160, 0.6); }
             100% { box-shadow: 0 0 30px rgba(6, 214, 160, 1); }
         }
-
         .option-card.wrong {
-            background: rgba(239, 68, 68, 0.25);
-            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.25); border-color: #ef4444;
             box-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
             animation: shake 0.4s ease;
         }
-
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             20%, 60% { transform: translateX(-8px); }
             40%, 80% { transform: translateX(8px); }
         }
-
-        /* POWERUPS */
-        .powerups-container {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 15px;
-        }
-
+        .powerups-container { display: flex; justify-content: center; gap: 15px; margin-top: 15px; }
         .powerup-btn {
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            padding: 10px 16px;
-            border-radius: 12px;
-            color: var(--text-light);
-            font-size: 0.9rem;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.2s ease;
+            background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 10px 16px; border-radius: 12px; color: var(--text-light);
+            font-size: 0.9rem; font-weight: 700; cursor: pointer;
+            display: flex; align-items: center; gap: 8px; transition: all 0.2s ease;
         }
-
         .powerup-btn i { color: var(--accent-yellow); }
-
-        .powerup-btn:hover:not(:disabled) {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateY(-2px);
-        }
-
-        .powerup-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            filter: grayscale(1);
-        }
-
-        /* ANIMATED ENVELOPE (UNBOX INVITATION) */
-        .envelope-wrapper {
-            perspective: 1000px;
-            margin: 20px auto 30px auto;
-            max-width: 400px;
-            cursor: pointer;
-        }
-
+        .powerup-btn:hover:not(:disabled) { background: rgba(255, 255, 255, 0.15); transform: translateY(-2px); }
+        .powerup-btn:disabled { opacity: 0.4; cursor: not-allowed; filter: grayscale(1); }
+        .envelope-wrapper { perspective: 1000px; margin: 20px auto 30px auto; max-width: 400px; cursor: pointer; }
         .envelope {
-            width: 100%;
-            height: 220px;
-            background: linear-gradient(135deg, #ff477e, #7209b7);
-            border-radius: 20px;
-            position: relative;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            width: 100%; height: 220px;
+            background: linear-gradient(135deg, #ff477e, #7209b7); border-radius: 20px;
+            position: relative; box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
             border: 2px solid rgba(255,255,255,0.3);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-
-        .envelope:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(255, 71, 126, 0.5);
-        }
-
-        .envelope-icon {
-            font-size: 4rem;
-            color: var(--accent-yellow);
-            margin-bottom: 10px;
-            animation: bounce 1.5s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .envelope-text {
-            font-family: 'Fredoka One', cursive;
-            font-size: 1.4rem;
-            color: #fff;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
-        }
-
-        /* INVITATION CARD (REVEALED) */
+        .envelope:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 20px 40px rgba(255, 71, 126, 0.5); }
+        .envelope-icon { font-size: 4rem; color: var(--accent-yellow); margin-bottom: 10px; animation: bounce 1.5s infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .envelope-text { font-family: 'Fredoka One', cursive; font-size: 1.4rem; color: #fff; text-shadow: 0 2px 5px rgba(0,0,0,0.3); }
         .invitation-card {
             background: linear-gradient(135deg, #ff477e 0%, #7209b7 100%);
-            border-radius: 24px;
-            padding: 30px 20px;
-            text-align: center;
+            border-radius: 24px; padding: 30px 20px; text-align: center;
             box-shadow: 0 15px 35px rgba(255, 71, 126, 0.4);
-            margin-bottom: 30px;
-            position: relative;
-            overflow: hidden;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            display: none;
+            margin-bottom: 30px; position: relative; overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.3); display: none;
             animation: openEnvelope 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
-
         @keyframes openEnvelope {
             0% { opacity: 0; transform: scale(0.3) rotateX(-90deg); }
             100% { opacity: 1; transform: scale(1) rotateX(0deg); }
         }
-
-        .invitation-title {
-            font-size: 2.2rem;
-            color: #fff;
-            margin-bottom: 15px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-        }
-
-        .invitation-text {
-            font-size: 1.25rem;
-            line-height: 1.6;
-            color: #f8fafc;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-
+        .invitation-title { font-size: 2.2rem; color: #fff; margin-bottom: 15px; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        .invitation-text { font-size: 1.25rem; line-height: 1.6; color: #f8fafc; font-weight: 700; margin-bottom: 20px; }
         .invitation-details {
-            background: rgba(0, 0, 0, 0.25);
-            padding: 15px;
-            border-radius: 16px;
-            backdrop-filter: blur(5px);
-            display: inline-block;
-            margin-top: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            width: 100%;
+            background: rgba(0, 0, 0, 0.25); padding: 15px; border-radius: 16px;
+            backdrop-filter: blur(5px); display: inline-block; margin-top: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2); width: 100%;
         }
-
-        .invitation-details p {
-            margin: 6px 0;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        /* LEADERBOARD */
-        .leaderboard-title {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            color: var(--accent-yellow);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .leaderboard-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            max-height: 280px;
-            overflow-y: auto;
-            padding-right: 5px;
-            margin-bottom: 25px;
-        }
-
+        .invitation-details p { margin: 6px 0; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .leaderboard-title { font-size: 1.8rem; margin-bottom: 20px; color: var(--accent-yellow); display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .leaderboard-list { list-style: none; display: flex; flex-direction: column; gap: 10px; max-height: 280px; overflow-y: auto; padding-right: 5px; margin-bottom: 25px; }
         .leaderboard-item {
-            background: rgba(15, 23, 42, 0.6);
-            border-radius: 14px;
-            padding: 14px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: all 0.2s ease;
+            background: rgba(15, 23, 42, 0.6); border-radius: 14px; padding: 14px 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.08); transition: all 0.2s ease;
         }
-
-        .leaderboard-item.current-player {
-            background: rgba(255, 71, 126, 0.25);
-            border-color: var(--primary-pink);
-            font-weight: 800;
-        }
-
-        .rank-badge {
-            width: 30px;
-            font-family: 'Fredoka One', cursive;
-            font-size: 1.2rem;
-            color: #cbd5e1;
-        }
-
+        .leaderboard-item.current-player { background: rgba(255, 71, 126, 0.25); border-color: var(--primary-pink); font-weight: 800; }
+        .rank-badge { width: 30px; font-family: 'Fredoka One', cursive; font-size: 1.2rem; color: #cbd5e1; }
         .top-1 .rank-badge { color: #ffd700; font-size: 1.5rem; }
         .top-2 .rank-badge { color: #c0c0c0; font-size: 1.4rem; }
         .top-3 .rank-badge { color: #cd7f32; font-size: 1.3rem; }
+        .player-info { flex-grow: 1; text-align: left; margin-left: 10px; font-size: 1.1rem; font-weight: 700; }
+        .player-score { font-family: 'Fredoka One', cursive; font-size: 1.2rem; color: var(--accent-green); }
 
-        .player-info {
-            flex-grow: 1;
-            text-align: left;
-            margin-left: 10px;
-            font-size: 1.1rem;
-            font-weight: 700;
+        /* ========== ANIMAȚII RĂSPUNSURI CORECTE ========== */
+        .correct-star-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 9999; pointer-events: none;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .correct-star {
+            font-size: 8rem; color: #ffd700;
+            filter: drop-shadow(0 0 30px #ffd700) drop-shadow(0 0 60px #ff8c00);
+            animation: starBurst 1.2s ease-out forwards;
+        }
+        @keyframes starBurst {
+            0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+            30% { transform: scale(1.4) rotate(10deg); opacity: 1; }
+            60% { transform: scale(1.1) rotate(-5deg); opacity: 1; }
+            100% { transform: scale(0) rotate(0deg); opacity: 0; }
+        }
+        .star-rays {
+            position: absolute; width: 300px; height: 300px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,215,0,0.4) 0%, transparent 70%);
+            animation: starRays 1.2s ease-out forwards;
+        }
+        @keyframes starRays {
+            0% { transform: scale(0); opacity: 0; }
+            40% { transform: scale(1.5); opacity: 1; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+        .clap-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 9999; pointer-events: none; overflow: hidden;
+        }
+        .clap-emoji {
+            position: absolute; font-size: 2.5rem;
+            animation: clapFly 1.5s ease-out forwards;
+        }
+        @keyframes clapFly {
+            0% { transform: translateY(100vh) scale(0.5) rotate(-20deg); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: translateY(-20vh) scale(1.2) rotate(20deg); opacity: 0; }
+        }
+        .firework-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 9999; pointer-events: none;
+        }
+        .firework-particle {
+            position: absolute; width: 8px; height: 8px; border-radius: 50%;
+            animation: fireworkBurst 1s ease-out forwards;
+        }
+        @keyframes fireworkBurst {
+            0% { transform: translate(0,0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
         }
 
-        .player-score {
-            font-family: 'Fredoka One', cursive;
-            font-size: 1.2rem;
-            color: var(--accent-green);
+        /* ========== ANIMAȚII RĂSPUNSURI GREȘITE ========== */
+        .lava-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 9998; pointer-events: none; overflow: hidden;
+        }
+        .lava-drop {
+            position: absolute; width: 20px; height: 40px;
+            background: linear-gradient(to bottom, #ff4500, #ff0000, #8b0000);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            opacity: 0.85; animation: lavaFall 1.2s ease-in forwards;
+            filter: blur(1px);
+        }
+        @keyframes lavaFall {
+            0% { transform: translateY(-50px) scale(1); opacity: 0.9; }
+            100% { transform: translateY(110vh) scale(0.6); opacity: 0; }
+        }
+        .screen-spin { animation: screenSpin360 0.9s ease-in-out !important; }
+        @keyframes screenSpin360 {
+            0% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(90deg) scale(0.9); }
+            50% { transform: rotate(180deg) scale(0.85); }
+            75% { transform: rotate(270deg) scale(0.9); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+        .red-flash-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(255, 0, 0, 0.45); z-index: 9998; pointer-events: none;
+            animation: redFlash 0.8s ease-out forwards;
+        }
+        @keyframes redFlash {
+            0% { opacity: 0; }
+            20% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 0; }
+        }
+        .red-flash-overlay::after {
+            content: "❌"; position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%); font-size: 6rem;
+            animation: xMark 0.8s ease-out forwards;
+            filter: drop-shadow(0 0 20px rgba(0,0,0,0.5));
+        }
+        @keyframes xMark {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            30% { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+            60% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+        }
+        .explosion-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 9999; pointer-events: none;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .explosion-boom {
+            width: 0; height: 0; border-radius: 50%;
+            background: radial-gradient(circle, #fff 0%, #ff4500 30%, #ff0000 60%, transparent 70%);
+            animation: boomExpand 0.9s ease-out forwards;
+        }
+        @keyframes boomExpand {
+            0% { width: 0; height: 0; opacity: 1; }
+            40% { width: 400px; height: 400px; opacity: 1; }
+            100% { width: 600px; height: 600px; opacity: 0; }
+        }
+        .explosion-shock {
+            position: absolute; width: 100%; height: 100%;
+            animation: shockWave 0.9s ease-out forwards;
+        }
+        @keyframes shockWave {
+            0% { box-shadow: inset 0 0 0 0 rgba(255,69,0,0); }
+            30% { box-shadow: inset 0 0 80px 40px rgba(255,69,0,0.6); }
+            100% { box-shadow: inset 0 0 0 0 rgba(255,69,0,0); }
+        }
+        .explosion-debris {
+            position: absolute; width: 12px; height: 12px;
+            background: #ff4500; border-radius: 2px;
+            animation: debrisFly 0.8s ease-out forwards;
+        }
+        @keyframes debrisFly {
+            0% { transform: translate(0,0) rotate(0deg) scale(1); opacity: 1; }
+            100% { transform: translate(var(--dx), var(--dy)) rotate(720deg) scale(0); opacity: 0; }
         }
 
         @media (max-width: 600px) {
@@ -650,48 +411,27 @@
     </style>
 </head>
 <body>
-
     <div id="bg-container" class="bg-container"></div>
-
-    <div class="container">
-        <!-- SCREEN 1: START / ENTER NAME -->
+    <div class="container" id="main-container">
         <div id="start-screen" class="screen active">
             <h1 class="title-badge">Invitație la ziua lui Ema 🌸</h1>
             <p class="subtitle">Află cât de bine o cunoști pe <strong>Ema</strong> și obține cel mai mare punctaj!</p>
-            
             <p class="balloon-hint">🎈 Tocmai au apărut baloane pe ecran! Atinge-le pentru a le sparge!</p>
-
             <div class="form-group">
                 <label for="player-name"><i class="fa-solid fa-user-ninja"></i> Numele tău:</label>
                 <input type="text" id="player-name" placeholder="Ex: Marcel" maxlength="20" autocomplete="off">
             </div>
-
             <button class="btn" onclick="startGame()">
                 <i class="fa-solid fa-play"></i> ÎNCEPE JOCUL
             </button>
         </div>
-
-        <!-- SCREEN 2: GAMEPLAY -->
         <div id="game-screen" class="screen">
             <div class="game-header">
-                <div class="stat-box">
-                    <i class="fa-solid fa-star"></i>
-                    <span id="score-display">0</span>
-                </div>
-                <div class="stat-box">
-                    <i class="fa-solid fa-fire"></i>
-                    <span id="streak-display">0x</span>
-                </div>
-                <div class="stat-box">
-                    <i class="fa-solid fa-bullseye"></i>
-                    <span id="question-count">1/15</span>
-                </div>
+                <div class="stat-box"><i class="fa-solid fa-star"></i><span id="score-display">0</span></div>
+                <div class="stat-box"><i class="fa-solid fa-fire"></i><span id="streak-display">0x</span></div>
+                <div class="stat-box"><i class="fa-solid fa-bullseye"></i><span id="question-count">1/15</span></div>
             </div>
-
-            <div class="progress-container">
-                <div id="progress-bar" class="progress-bar"></div>
-            </div>
-
+            <div class="progress-container"><div id="progress-bar" class="progress-bar"></div></div>
             <div id="timer-box" class="timer-container">
                 <svg class="timer-svg">
                     <circle class="timer-circle-bg" cx="32.5" cy="32.5" r="28"></circle>
@@ -699,17 +439,13 @@
                 </svg>
                 <div id="timer-text" class="timer-text">15</div>
             </div>
-
-            <!-- 3D FLIP CARD QUESTION -->
             <div class="card-perspective">
                 <div id="question-card-3d" class="question-card-3d">
                     <div id="card-front-text" class="card-face card-front">Se încarcă...</div>
                     <div id="card-back-text" class="card-face card-back">Se încarcă...</div>
                 </div>
             </div>
-
             <div id="options-container" class="options-grid"></div>
-
             <div class="powerups-container">
                 <button id="powerup-5050" class="powerup-btn" onclick="use5050()">
                     <i class="fa-solid fa-bomb"></i> Elimină 1 Opțiune
@@ -719,19 +455,13 @@
                 </button>
             </div>
         </div>
-
-        <!-- SCREEN 3: RESULTS & INVITATION -->
         <div id="result-screen" class="screen">
-            
-            <!-- UNBOX THE INVITATION -->
             <div id="envelope-box" class="envelope-wrapper" onclick="openInvitation()">
                 <div class="envelope">
                     <i class="fa-solid fa-envelope-open-text envelope-icon"></i>
                     <div class="envelope-text">Apasă pentru a deschide Invitația! ✉️</div>
                 </div>
             </div>
-
-            <!-- REVEALED INVITATION CARD -->
             <div id="invitation-card" class="invitation-card">
                 <h2 class="invitation-title">🎉 Felicitări! 🎉</h2>
                 <p class="invitation-text">
@@ -743,31 +473,21 @@
                     <p><i class="fa-solid fa-trophy" style="color: #ffb703;"></i> Punctajul tău final: <strong id="final-score" style="color: #06d6a0;">0</strong> p</p>
                 </div>
             </div>
-
-            <!-- WHATSAPP DIRECT SHARE BUTTON -->
             <a id="whatsapp-btn" href="#" target="_blank" class="btn btn-whatsapp">
                 <i class="fa-brands fa-whatsapp"></i> Confirmă Prezența pe WhatsApp
             </a>
-
-            <h3 class="leaderboard-title">
-                <i class="fa-solid fa-ranking-star"></i> Clasamentul Jucătorilor
-            </h3>
-
+            <h3 class="leaderboard-title"><i class="fa-solid fa-ranking-star"></i> Clasamentul Jucătorilor</h3>
             <ul id="leaderboard-list" class="leaderboard-list">
                 <li style="text-align:center; padding: 15px; opacity: 0.7;">Se încarcă clasamentul...</li>
             </ul>
-
             <button class="btn" onclick="restartGame()">
                 <i class="fa-solid fa-rotate-right"></i> Joacă Din Nou
             </button>
         </div>
     </div>
-
-    <!-- FIREBASE MODULES -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, push, onValue, query, orderByChild, limitToLast } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-
         const firebaseConfig = {
             apiKey: "AIzaSyBXf-O3TMVNDwGQqRmnNRr8WO0O5nMrryI",
             authDomain: "ziuaemei.firebaseapp.com",
@@ -777,10 +497,8 @@
             messagingSenderId: "1003085443204",
             appId: "1:1003085443204:web:9aa71ff172e7e6d81d92d1"
         };
-
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-
         const questions = [
             { question: "1. Când s-a născut Ema?", options: ["14 august 2019", "14 august 2018", "15 august 2018"], correct: 1 },
             { question: "2. În ce oraș s-a născut Ema?", options: ["Cluj-Napoca", "Pitești", "București"], correct: 2 },
@@ -798,31 +516,121 @@
             { question: "14. Ce are Ema la urechi?", options: ["Ceară", "Sinusul preauricular", "O aluniță"], correct: 1 },
             { question: "15. Care este anotimpul preferat al Emei?", options: ["Primăvara", "Iarna", "Vara"], correct: 2 }
         ];
-
         let currentQuestionIndex = 0, score = 0, streak = 0, playerName = "", timerInterval = null, timeLeft = 15, canAnswer = true, used5050 = false, usedFreeze = false, isFlipped = false;
+        window.startGame = startGame; window.use5050 = use5050; window.useFreeze = useFreeze; window.openInvitation = openInvitation; window.restartGame = restartGame;
 
-        window.startGame = startGame;
-        window.use5050 = use5050;
-        window.useFreeze = useFreeze;
-        window.openInvitation = openInvitation;
-        window.restartGame = restartGame;
+        /* ========== ANIMAȚII RĂSPUNSURI CORECTE ========== */
+        function animCorrectConfetti() {
+            const duration = 1000; const end = Date.now() + duration;
+            (function frame() {
+                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ff477e', '#7209b7', '#ffb703', '#06d6a0'] });
+                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ff477e', '#7209b7', '#ffb703', '#06d6a0'] });
+                if (Date.now() < end) requestAnimationFrame(frame);
+            }());
+        }
+        function animCorrectStar() {
+            const overlay = document.createElement('div'); overlay.className = 'correct-star-overlay';
+            const rays = document.createElement('div'); rays.className = 'star-rays';
+            const star = document.createElement('div'); star.className = 'correct-star'; star.innerHTML = '⭐';
+            overlay.appendChild(rays); overlay.appendChild(star); document.body.appendChild(overlay);
+            setTimeout(() => overlay.remove(), 1300);
+        }
+        function animCorrectClaps() {
+            const overlay = document.createElement('div'); overlay.className = 'clap-overlay';
+            const clapEmojis = ['👏', '👏🏻', '👏🏼', '👏🏽', '👏🏾', '👏🏿'];
+            for (let i = 0; i < 20; i++) {
+                const clap = document.createElement('div'); clap.className = 'clap-emoji';
+                clap.innerHTML = clapEmojis[Math.floor(Math.random() * clapEmojis.length)];
+                clap.style.left = Math.random() * 90 + 5 + 'vw';
+                clap.style.animationDelay = Math.random() * 0.6 + 's';
+                clap.style.animationDuration = (1 + Math.random() * 0.8) + 's';
+                clap.style.fontSize = (1.5 + Math.random() * 2) + 'rem';
+                overlay.appendChild(clap);
+            }
+            document.body.appendChild(overlay); setTimeout(() => overlay.remove(), 1800);
+        }
+        function animCorrectFireworks() {
+            const overlay = document.createElement('div'); overlay.className = 'firework-overlay';
+            const colors = ['#ff477e', '#7209b7', '#ffb703', '#06d6a0', '#ff0000', '#00ffff', '#ffd700'];
+            const centers = [{ x: 30, y: 40 }, { x: 70, y: 35 }, { x: 50, y: 60 }, { x: 20, y: 65 }, { x: 80, y: 55 }];
+            centers.forEach((center, ci) => {
+                setTimeout(() => {
+                    for (let i = 0; i < 30; i++) {
+                        const p = document.createElement('div'); p.className = 'firework-particle';
+                        const angle = (Math.PI * 2 * i) / 30; const dist = 80 + Math.random() * 120;
+                        p.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
+                        p.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
+                        p.style.background = colors[Math.floor(Math.random() * colors.length)];
+                        p.style.boxShadow = '0 0 6px ' + p.style.background;
+                        p.style.left = center.x + 'vw'; p.style.top = center.y + 'vh';
+                        p.style.animationDelay = Math.random() * 0.1 + 's';
+                        overlay.appendChild(p);
+                    }
+                }, ci * 200);
+            });
+            document.body.appendChild(overlay); setTimeout(() => overlay.remove(), 2000);
+        }
+        const correctAnimations = [animCorrectConfetti, animCorrectStar, animCorrectClaps, animCorrectFireworks];
+        function playRandomCorrectAnimation() {
+            correctAnimations[Math.floor(Math.random() * correctAnimations.length)]();
+        }
 
+        /* ========== ANIMAȚII RĂSPUNSURI GREȘITE ========== */
+        function animWrongLava() {
+            const overlay = document.createElement('div'); overlay.className = 'lava-overlay';
+            for (let i = 0; i < 30; i++) {
+                const drop = document.createElement('div'); drop.className = 'lava-drop';
+                drop.style.left = Math.random() * 100 + 'vw';
+                drop.style.width = (15 + Math.random() * 25) + 'px';
+                drop.style.height = (30 + Math.random() * 50) + 'px';
+                drop.style.animationDelay = Math.random() * 0.8 + 's';
+                drop.style.animationDuration = (0.8 + Math.random() * 0.6) + 's';
+                overlay.appendChild(drop);
+            }
+            document.body.appendChild(overlay); setTimeout(() => overlay.remove(), 1500);
+        }
+        function animWrongSpin() {
+            const container = document.getElementById('main-container');
+            container.classList.add('screen-spin');
+            setTimeout(() => container.classList.remove('screen-spin'), 900);
+        }
+        function animWrongRedFlash() {
+            const overlay = document.createElement('div'); overlay.className = 'red-flash-overlay';
+            document.body.appendChild(overlay); setTimeout(() => overlay.remove(), 900);
+        }
+        function animWrongExplosion() {
+            const overlay = document.createElement('div'); overlay.className = 'explosion-overlay';
+            const shock = document.createElement('div'); shock.className = 'explosion-shock';
+            const boom = document.createElement('div'); boom.className = 'explosion-boom';
+            overlay.appendChild(shock); overlay.appendChild(boom);
+            for (let i = 0; i < 40; i++) {
+                const debris = document.createElement('div'); debris.className = 'explosion-debris';
+                const angle = Math.random() * Math.PI * 2; const dist = 100 + Math.random() * 250;
+                debris.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
+                debris.style.setProperty('--dy', Math.sin(angle) * dist + 'px');
+                debris.style.background = ['#ff4500', '#ff0000', '#8b0000', '#ff8c00'][Math.floor(Math.random() * 4)];
+                debris.style.left = '50%'; debris.style.top = '50%';
+                debris.style.animationDelay = Math.random() * 0.15 + 's';
+                overlay.appendChild(debris);
+            }
+            document.body.appendChild(overlay); setTimeout(() => overlay.remove(), 1000);
+        }
+        const wrongAnimations = [animWrongLava, animWrongSpin, animWrongRedFlash, animWrongExplosion];
+        function playRandomWrongAnimation() {
+            wrongAnimations[Math.floor(Math.random() * wrongAnimations.length)]();
+        }
+
+        /* ========== FUNCȚII EXISTENTE ========== */
         function initBackground() {
-            const container = document.getElementById("bg-container");
-            container.innerHTML = "";
+            const container = document.getElementById("bg-container"); container.innerHTML = "";
             for (let i = 0; i < 25; i++) {
-                const star = document.createElement("div");
-                star.className = "floating-star";
-                star.innerHTML = "✦";
-                star.style.left = `${Math.random() * 100}vw`;
-                star.style.animationDuration = `${5 + Math.random() * 7}s`;
-                star.style.animationDelay = `${Math.random() * 5}s`;
-                container.appendChild(star);
+                const star = document.createElement("div"); star.className = "floating-star"; star.innerHTML = "✦";
+                star.style.left = `${Math.random() * 100}vw`; star.style.animationDuration = `${5 + Math.random() * 7}s`;
+                star.style.animationDelay = `${Math.random() * 5}s`; container.appendChild(star);
             }
             const balloonEmojis = ["🎈", "🎂", "🦄", "💖", "🎉"];
             for (let i = 0; i < 8; i++) {
-                const balloon = document.createElement("div");
-                balloon.className = "balloon";
+                const balloon = document.createElement("div"); balloon.className = "balloon";
                 balloon.innerHTML = balloonEmojis[i % balloonEmojis.length];
                 balloon.style.left = `${10 + Math.random() * 80}vw`;
                 balloon.style.animationDuration = `${8 + Math.random() * 8}s`;
@@ -831,262 +639,122 @@
                 container.appendChild(balloon);
             }
         }
-
         function popBalloon(element) {
             element.classList.add("pop");
             try {
                 const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(800, ctx.currentTime);
+                const osc = ctx.createOscillator(); const gain = ctx.createGain();
+                osc.type = 'sine'; osc.frequency.setValueAtTime(800, ctx.currentTime);
                 osc.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.1);
-                gain.gain.setValueAtTime(0.3, ctx.currentTime);
-                gain.gain.linearRampToValueAtTime(0.01, ctx.currentTime + 0.1);
-                osc.connect(gain);
-                gain.connect(ctx.destination);
-                osc.start();
-                osc.stop(ctx.currentTime + 0.1);
+                gain.gain.setValueAtTime(0.3, ctx.currentTime); gain.gain.linearRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+                osc.connect(gain); gain.connect(ctx.destination); osc.start(); osc.stop(ctx.currentTime + 0.1);
             } catch(e) {}
-            triggerVibration(30);
-            setTimeout(() => { element.remove(); }, 300);
+            triggerVibration(30); setTimeout(() => { element.remove(); }, 300);
         }
-
         function triggerVibration(pattern) {
-            if ("vibrate" in navigator) {
-                try { navigator.vibrate(pattern); } catch(e) {}
-            }
+            if ("vibrate" in navigator) { try { navigator.vibrate(pattern); } catch(e) {} }
         }
-
         function startGame() {
             const nameInput = document.getElementById("player-name").value.trim();
-            if (!nameInput) {
-                alert("Te rugăm să îți introduci numele pentru a începe!");
-                return;
-            }
-            playerName = nameInput;
-            score = 0; streak = 0; currentQuestionIndex = 0; used5050 = false; usedFreeze = false; isFlipped = false;
-            document.getElementById("powerup-5050").disabled = false;
-            document.getElementById("powerup-freeze").disabled = false;
-            switchScreen("game-screen");
-            loadQuestion();
+            if (!nameInput) { alert("Te rugăm să îți introduci numele pentru a începe!"); return; }
+            playerName = nameInput; score = 0; streak = 0; currentQuestionIndex = 0; used5050 = false; usedFreeze = false; isFlipped = false;
+            document.getElementById("powerup-5050").disabled = false; document.getElementById("powerup-freeze").disabled = false;
+            switchScreen("game-screen"); loadQuestion();
         }
-
         function switchScreen(screenId) {
             document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
             document.getElementById(screenId).classList.add("active");
         }
-
         function loadQuestion() {
-            canAnswer = true;
-            const q = questions[currentQuestionIndex];
+            canAnswer = true; const q = questions[currentQuestionIndex];
             document.getElementById("question-count").innerText = `${currentQuestionIndex + 1}/${questions.length}`;
-            document.getElementById("score-display").innerText = score;
-            document.getElementById("streak-display").innerText = `${streak}x`;
-
-            const card3D = document.getElementById("question-card-3d");
-            const frontFace = document.getElementById("card-front-text");
-            const backFace = document.getElementById("card-back-text");
-
-            if (!isFlipped) {
-                backFace.innerText = q.question;
-                card3D.classList.add("flipped");
-                isFlipped = true;
-            } else {
-                frontFace.innerText = q.question;
-                card3D.classList.remove("flipped");
-                isFlipped = false;
-            }
-
-            const progressPct = ((currentQuestionIndex) / questions.length) * 100;
-            document.getElementById("progress-bar").style.width = `${progressPct}%`;
-
-            const container = document.getElementById("options-container");
-            container.innerHTML = "";
+            document.getElementById("score-display").innerText = score; document.getElementById("streak-display").innerText = `${streak}x`;
+            const card3D = document.getElementById("question-card-3d"); const frontFace = document.getElementById("card-front-text"); const backFace = document.getElementById("card-back-text");
+            if (!isFlipped) { backFace.innerText = q.question; card3D.classList.add("flipped"); isFlipped = true; }
+            else { frontFace.innerText = q.question; card3D.classList.remove("flipped"); isFlipped = false; }
+            document.getElementById("progress-bar").style.width = `${((currentQuestionIndex) / questions.length) * 100}%`;
+            const container = document.getElementById("options-container"); container.innerHTML = "";
             const labels = ["A", "B", "C"];
             q.options.forEach((opt, idx) => {
-                const card = document.createElement("div");
-                card.className = "option-card";
-                card.onclick = () => selectOption(idx);
-                card.innerHTML = `<div class="option-badge">${labels[idx]}</div><div>${opt}</div>`;
-                container.appendChild(card);
+                const card = document.createElement("div"); card.className = "option-card"; card.onclick = () => selectOption(idx);
+                card.innerHTML = `<div class="option-badge">${labels[idx]}</div><div>${opt}</div>`; container.appendChild(card);
             });
-
             startTimer();
         }
-
         function startTimer() {
-            clearInterval(timerInterval);
-            timeLeft = 15;
-            updateTimerDisplay();
-            timerInterval = setInterval(() => {
-                timeLeft--;
-                updateTimerDisplay();
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    handleTimeOut();
-                }
-            }, 1000);
+            clearInterval(timerInterval); timeLeft = 15; updateTimerDisplay();
+            timerInterval = setInterval(() => { timeLeft--; updateTimerDisplay(); if (timeLeft <= 0) { clearInterval(timerInterval); handleTimeOut(); } }, 1000);
         }
-
         function updateTimerDisplay() {
             document.getElementById("timer-text").innerText = timeLeft;
-            const circle = document.getElementById("timer-circle");
-            const timerBox = document.getElementById("timer-box");
-            const offset = 176 - (176 * timeLeft) / 15;
-            circle.style.strokeDashoffset = offset;
-
-            if (timeLeft <= 5) {
-                circle.style.stroke = "#ef4444";
-                timerBox.classList.add("urgent");
-            } else {
-                circle.style.stroke = "#ff477e";
-                timerBox.classList.remove("urgent");
-            }
+            const circle = document.getElementById("timer-circle"); const timerBox = document.getElementById("timer-box");
+            const offset = 176 - (176 * timeLeft) / 15; circle.style.strokeDashoffset = offset;
+            if (timeLeft <= 5) { circle.style.stroke = "#ef4444"; timerBox.classList.add("urgent"); }
+            else { circle.style.stroke = "#ff477e"; timerBox.classList.remove("urgent"); }
         }
-
         function selectOption(index) {
-            if (!canAnswer) return;
-            canAnswer = false;
-            clearInterval(timerInterval);
-            document.getElementById("timer-box").classList.remove("urgent");
-
-            const q = questions[currentQuestionIndex];
-            const options = document.querySelectorAll(".option-card");
-
-            options.forEach((opt, idx) => {
-                if (idx !== index && idx !== q.correct) opt.classList.add("fade-out");
-            });
-
+            if (!canAnswer) return; canAnswer = false; clearInterval(timerInterval); document.getElementById("timer-box").classList.remove("urgent");
+            const q = questions[currentQuestionIndex]; const options = document.querySelectorAll(".option-card");
+            options.forEach((opt, idx) => { if (idx !== index && idx !== q.correct) opt.classList.add("fade-out"); });
             if (index === q.correct) {
-                options[index].classList.add("correct");
-                streak++;
+                options[index].classList.add("correct"); streak++;
                 score += 500 + (timeLeft * 20) + (streak * 50);
-                document.getElementById("score-display").innerText = score;
-                document.getElementById("streak-display").innerText = `${streak}x`;
+                document.getElementById("score-display").innerText = score; document.getElementById("streak-display").innerText = `${streak}x`;
+                playRandomCorrectAnimation();
             } else {
-                triggerVibration([100, 50, 100]);
-                options[index].classList.add("wrong");
-                options[q.correct].classList.add("correct");
-                streak = 0;
-                document.getElementById("streak-display").innerText = `0x`;
+                triggerVibration([100, 50, 100]); options[index].classList.add("wrong"); options[q.correct].classList.add("correct");
+                streak = 0; document.getElementById("streak-display").innerText = `0x`;
+                playRandomWrongAnimation();
             }
-
-            setTimeout(() => {
-                currentQuestionIndex++;
-                if (currentQuestionIndex < questions.length) loadQuestion();
-                else endGame();
-            }, 1600);
+            setTimeout(() => { currentQuestionIndex++; if (currentQuestionIndex < questions.length) loadQuestion(); else endGame(); }, 1600);
         }
-
         function handleTimeOut() {
-            if (!canAnswer) return;
-            canAnswer = false;
-            triggerVibration([200, 100, 200]);
-            document.getElementById("timer-box").classList.remove("urgent");
-
-            const q = questions[currentQuestionIndex];
-            const options = document.querySelectorAll(".option-card");
-            options.forEach((opt, idx) => {
-                if (idx !== q.correct) opt.classList.add("fade-out");
-            });
-            options[q.correct].classList.add("correct");
-            streak = 0;
-            document.getElementById("streak-display").innerText = `0x`;
-
-            setTimeout(() => {
-                currentQuestionIndex++;
-                if (currentQuestionIndex < questions.length) loadQuestion();
-                else endGame();
-            }, 1600);
+            if (!canAnswer) return; canAnswer = false; triggerVibration([200, 100, 200]); document.getElementById("timer-box").classList.remove("urgent");
+            const q = questions[currentQuestionIndex]; const options = document.querySelectorAll(".option-card");
+            options.forEach((opt, idx) => { if (idx !== q.correct) opt.classList.add("fade-out"); });
+            options[q.correct].classList.add("correct"); streak = 0; document.getElementById("streak-display").innerText = `0x`;
+            playRandomWrongAnimation();
+            setTimeout(() => { currentQuestionIndex++; if (currentQuestionIndex < questions.length) loadQuestion(); else endGame(); }, 1600);
         }
-
         function use5050() {
-            if (used5050 || !canAnswer) return;
-            used5050 = true;
-            document.getElementById("powerup-5050").disabled = true;
-            const q = questions[currentQuestionIndex];
-            const options = document.querySelectorAll(".option-card");
-            let removedCount = 0;
-            options.forEach((opt, idx) => {
-                if (idx !== q.correct && removedCount < 1) {
-                    opt.classList.add("fade-out");
-                    opt.style.pointerEvents = "none";
-                    removedCount++;
-                }
-            });
+            if (used5050 || !canAnswer) return; used5050 = true; document.getElementById("powerup-5050").disabled = true;
+            const q = questions[currentQuestionIndex]; const options = document.querySelectorAll(".option-card"); let removedCount = 0;
+            options.forEach((opt, idx) => { if (idx !== q.correct && removedCount < 1) { opt.classList.add("fade-out"); opt.style.pointerEvents = "none"; removedCount++; } });
         }
-
         function useFreeze() {
-            if (usedFreeze || !canAnswer) return;
-            usedFreeze = true;
-            document.getElementById("powerup-freeze").disabled = true;
-            clearInterval(timerInterval);
-            document.getElementById("timer-box").classList.remove("urgent");
-            document.getElementById("timer-text").innerText = "❄️";
+            if (usedFreeze || !canAnswer) return; usedFreeze = true; document.getElementById("powerup-freeze").disabled = true;
+            clearInterval(timerInterval); document.getElementById("timer-box").classList.remove("urgent"); document.getElementById("timer-text").innerText = "❄️";
         }
-
         function endGame() {
-            switchScreen("result-screen");
-            document.getElementById("final-score").innerText = score;
-
+            switchScreen("result-screen"); document.getElementById("final-score").innerText = score;
             confetti({ particleCount: 140, spread: 80, origin: { y: 0.6 } });
-
             const waMessage = encodeURIComponent(`Bună! Eu sunt ${playerName} și am obținut ${score} de puncte la jocul Emei! 🎉 Vin cu mare drag la petrecerea ei din 15 august, ora 15:00 „La Grădină”!`);
             document.getElementById("whatsapp-btn").href = `https://wa.me/40722578301?text=${waMessage}`;
-
             saveScore(playerName, score);
         }
-
         function openInvitation() {
-            document.getElementById("envelope-box").style.display = "none";
-            document.getElementById("invitation-card").style.display = "block";
-            triggerVibration(50);
-            confetti({ particleCount: 80, spread: 60, origin: { y: 0.5 } });
+            document.getElementById("envelope-box").style.display = "none"; document.getElementById("invitation-card").style.display = "block";
+            triggerVibration(50); confetti({ particleCount: 80, spread: 60, origin: { y: 0.5 } });
         }
-
-        function saveScore(name, points) {
-            push(ref(db, "leaderboard"), { name: name, score: points, timestamp: Date.now() });
-        }
-
+        function saveScore(name, points) { push(ref(db, "leaderboard"), { name: name, score: points, timestamp: Date.now() }); }
         const leaderboardRef = query(ref(db, "leaderboard"), orderByChild("score"), limitToLast(10));
         onValue(leaderboardRef, (snapshot) => {
-            const leaderboardList = document.getElementById("leaderboard-list");
-            leaderboardList.innerHTML = "";
-            if (!snapshot.exists()) {
-                leaderboardList.innerHTML = `<li style="text-align:center; padding: 15px; opacity: 0.7;">Fii primul care obține un punctaj!</li>`;
-                return;
-            }
-            const data = [];
-            snapshot.forEach((child) => { data.push(child.val()); });
-            data.sort((a, b) => b.score - a.score);
-
+            const leaderboardList = document.getElementById("leaderboard-list"); leaderboardList.innerHTML = "";
+            if (!snapshot.exists()) { leaderboardList.innerHTML = `<li style="text-align:center; padding: 15px; opacity: 0.7;">Fii primul care obține un punctaj!</li>`; return; }
+            const data = []; snapshot.forEach((child) => { data.push(child.val()); }); data.sort((a, b) => b.score - a.score);
             data.forEach((entry, idx) => {
                 const li = document.createElement("li");
                 li.className = `leaderboard-item top-${idx + 1} ${entry.name === playerName ? 'current-player' : ''}`;
-                let icon = `${idx + 1}.`;
-                if (idx === 0) icon = "👑";
-                if (idx === 1) icon = "🥈";
-                if (idx === 2) icon = "🥉";
-                li.innerHTML = `
-                    <div class="rank-badge">${icon}</div>
-                    <div class="player-info">${escapeHtml(entry.name)}</div>
-                    <div class="player-score">${entry.score} p</div>
-                `;
+                let icon = `${idx + 1}.`; if (idx === 0) icon = "👑"; if (idx === 1) icon = "🥈"; if (idx === 2) icon = "🥉";
+                li.innerHTML = `<div class="rank-badge">${icon}</div><div class="player-info">${escapeHtml(entry.name)}</div><div class="player-score">${entry.score} p</div>`;
                 leaderboardList.appendChild(li);
             });
         });
-
-        function escapeHtml(text) {
-            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        }
-
+        function escapeHtml(text) { return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
         function restartGame() {
-            document.getElementById("envelope-box").style.display = "block";
-            document.getElementById("invitation-card").style.display = "none";
+            document.getElementById("envelope-box").style.display = "block"; document.getElementById("invitation-card").style.display = "none";
             switchScreen("start-screen");
         }
-
         initBackground();
     </script>
 </body>
